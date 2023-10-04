@@ -2,4 +2,4 @@
 The documentation for powertool.
 
 # About
-This site is built with Hugo using the [docsy](https://github.com/google/docsy) theme from google.
+This site is built with Hugo using the [hugo-book](https://github.com/alex-shpak/hugo-book) theme from google.
