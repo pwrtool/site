@@ -1,6 +1,6 @@
 ---
-title: "CLI"
-weight: 1
+title: "Contributing"
+weight: 750
 # bookFlatSection: false
 # bookToc: true
 # bookHidden: false
@@ -8,5 +8,3 @@ weight: 1
 # bookComments: false
 # bookSearchExclude: false
 ---
-
-hello world! this is the cli!

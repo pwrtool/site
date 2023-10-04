@@ -1,6 +1,6 @@
 ---
-title: "The docs page"
-weight: 1
+title: "Building Kits"
+weight: 500
 # bookFlatSection: false
 # bookToc: true
 # bookHidden: false
@@ -8,6 +8,3 @@ weight: 1
 # bookComments: false
 # bookSearchExclude: false
 ---
-
-
-this is the docs page!

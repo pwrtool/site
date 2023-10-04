@@ -1,5 +1,5 @@
 ---
-title: "The Main page"
+title: "Powertool Documentation"
 weight: 1
 # bookFlatSection: false
 # bookToc: true
@@ -10,4 +10,5 @@ weight: 1
 ---
 
 
-this is the index page!
+# Powertool
+Powertool is pretty cool

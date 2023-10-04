@@ -1,6 +1,6 @@
 ---
-title: "hello!"
-weight: 1
+title: "API Specification"
+weight: 1000
 # bookFlatSection: false
 # bookToc: true
 # bookHidden: false
@@ -9,5 +9,5 @@ weight: 1
 # bookSearchExclude: false
 ---
 
-
-hello world!
+# API
+This is the raw API specification. Please treat the `kit-js` package as the "source of truth"
