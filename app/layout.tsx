@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Oxygen as Font } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
 
 const font = Font({ subsets: ["latin"], weight: "400" });
 
@@ -16,7 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={font.className}>{children}</body>
+      <body className={font.className}>
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }

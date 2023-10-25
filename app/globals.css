@@ -2,7 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-primary: #e33822;
+  --color-primary-hover: #e94a1d;
+}
+
 body {
   background-color: #000000;
   color: #ffffff;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #ffffff;
+}
+
+main {
+  @apply m-4;
+}
+
+a {
+  @apply text-primary transition-all text-primary-hover;
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+.text-primary-hover:hover {
+  color: var(--color-primary-hover);
+}
+
+.underline-hover {
+  text-decoration: none;
+  background-image: linear-gradient(#ffffff, #ffffff);
+  background-size: 0% 0.1em;
+  background-position-y: 100%;
+  background-position-x: 50%;
+  background-repeat: no-repeat;
+  transition: background-size 0.2s ease-in-out;
+}
+
+.underline-hover:hover,
+.underline-hover:focus,
+.underline-hover:active {
+  background-size: 100% 0.1em;
 }
