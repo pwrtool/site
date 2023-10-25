@@ -47,3 +47,15 @@ a {
 .underline-hover:active {
   background-size: 100% 0.1em;
 }
+
+.invisible {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.visible {
+  visibility: visible;
+  width: auto;
+  height: auto;
+}
