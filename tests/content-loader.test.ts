@@ -44,4 +44,26 @@ describe("generateRoutemap", () => {
 
     expect(generateRoutemap(map)).toEqual(expected);
   });
+  test("plain markdown files", () => {
+    const map = new Map(
+      Object.entries({
+        "index.md": "index.md",
+        "about.md": "about.md",
+        docs: new Map(
+          Object.entries({
+            "index.md": "index.md",
+            "hello.md": "hello.md",
+          }),
+        ),
+      }),
+    );
+    const expected = new Map([
+      ["/", "index.md"],
+      ["/about", "about.md"],
+      ["/docs", "docs/index.md"],
+      ["/docs/hello", "docs/hello.md"],
+    ]);
+
+    expect(generateRoutemap(map)).toEqual(expected);
+  });
 });

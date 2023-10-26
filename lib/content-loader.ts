@@ -2,18 +2,20 @@ import fs from "node:fs";
 
 export type FileTree = Map<string, string | FileTree>;
 
-export function generateRoutemap(fileTree: FileTree) {
+export function generateRoutemap(
+  fileTree: FileTree = generateFileTree("content"),
+) {
   const routemap = new Map<string, string>();
 
   for (const [key, value] of fileTree) {
     if (typeof value === "string") {
       // special case for index.md being the root
-      if (key === "index.mdx") {
+      if (key === "index.mdx" || key === "index.md") {
         routemap.set("/", value);
         continue;
       }
 
-      routemap.set(`/${key.replace(".mdx", "")}`, value);
+      routemap.set(`/${key.replace(".mdx", "").replace(".md", "")}`, value);
     } else {
       const submap = generateRoutemap(value);
       for (const [subkey, subvalue] of submap) {
