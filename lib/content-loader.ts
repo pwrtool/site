@@ -1,38 +1,52 @@
 import fs from "node:fs";
 
-function getMarkdownFilesInDirectory(dir: string) {
-  const files = fs.readdirSync(dir);
+export type FileTree = Map<string, string | FileTree>;
 
-  for (let i = 0; i < files.length; i++) {
-    // if it's a directory, recursively call this function
-    if (fs.lstatSync(dir + "/" + files[i]).isDirectory()) {
-      getMarkdownFilesInDirectory(dir + "/" + files[i]);
+export function generateRoutemap(fileTree: FileTree) {
+  const routemap = new Map<string, string>();
+
+  for (const [key, value] of fileTree) {
+    if (typeof value === "string") {
+      // special case for index.md being the root
+      if (key === "index.mdx") {
+        routemap.set("/", value);
+        continue;
+      }
+
+      routemap.set(`/${key.replace(".mdx", "")}`, value);
     } else {
-      // add the file to the array of files
-      files.push(files[i]);
+      const submap = generateRoutemap(value);
+      for (const [subkey, subvalue] of submap) {
+        routemap.set(
+          `/${key}${stripTailingSlash(subkey)}`,
+          `${key}/${stripTailingSlash(subvalue)}`,
+        );
+      }
     }
   }
 
-  console.log(files);
-  return files;
+  return routemap;
 }
 
-type TreeNode = {
-  url: string;
-  filepath: string;
-  children: TreeNode[];
-};
+function stripTailingSlash(path: string) {
+  return path.replace(/\/$/, "");
+}
 
-export class ContentRenderer {
-  fileTree: TreeNode = {
-    url: "docs",
-    filepath: "content/_index.mdx",
-    children: [],
-  };
+function generateFileTree(startingDir: string): FileTree {
+  const fileTree = new Map<string, string | FileTree>();
 
-  constructor() {
-    const files = this.getMarkdownFilesInDirectory("content");
+  const files = fs.readdirSync(startingDir);
+
+  for (const file of files) {
+    const path = `${startingDir}/${file}`;
+    const stats = fs.statSync(path);
+
+    if (stats.isDirectory()) {
+      fileTree.set(file, generateFileTree(path));
+    } else {
+      fileTree.set(file, path);
+    }
   }
 
-  getFile(url: string) {}
+  return fileTree;
 }
