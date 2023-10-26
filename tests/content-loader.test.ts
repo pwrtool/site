@@ -1,4 +1,8 @@
-import { generateRoutemap, FileTree } from "../lib/content-loader";
+import {
+  generateRoutemap,
+  FileTree,
+  generateFileTree,
+} from "../lib/content-loader";
 import { expect, test, describe } from "bun:test";
 
 describe("generateRoutemap", () => {

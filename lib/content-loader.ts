@@ -34,6 +34,8 @@ function stripTailingSlash(path: string) {
   return path.replace(/\/$/, "");
 }
 
+// acts as a wrapper around fs to turn it into useful information for the generateRoutemap function
+// Allows you to pass in "hypothetical" filemaps for testing
 function generateFileTree(startingDir: string): FileTree {
   const fileTree = new Map<string, string | FileTree>();
 
@@ -46,7 +48,7 @@ function generateFileTree(startingDir: string): FileTree {
     if (stats.isDirectory()) {
       fileTree.set(file, generateFileTree(path));
     } else {
-      fileTree.set(file, path);
+      fileTree.set(file, file);
     }
   }
 
