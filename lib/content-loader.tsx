@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import path from "node:path";
 
 export type FileTree = Map<string, string | FileTree>;
 
@@ -58,6 +59,16 @@ function generateFileTree(startingDir: string): FileTree {
 class ContentLoader {
   map: Map<string, string> = generateRoutemap();
 
-  async getContent(path: string): [Component, frontmatter] { }
-  // use gray-matter to parse frontmatter
+  getContent(routePath: string) {
+    const filepath = this.map.get(routePath);
+
+    if (!filepath) {
+      throw new Error("File not found");
+    }
+
+    const markdown = fs.readFileSync(path.join("content", filepath), "utf-8");
+    return markdown;
+  }
 }
+
+export const contentLoader = new ContentLoader();
