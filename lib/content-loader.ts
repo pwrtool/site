@@ -57,7 +57,11 @@ function generateFileTree(startingDir: string): FileTree {
 }
 
 class ContentLoader {
-  map: Map<string, string> = generateRoutemap();
+  map: Map<string, string>;
+
+  constructor(map: Map<string, string> = generateRoutemap()) {
+    this.map = map;
+  }
 
   getContent(routePath: string) {
     const filepath = this.map.get(routePath);
@@ -74,6 +78,12 @@ class ContentLoader {
     return Array.from(this.map.keys());
   }
   getRouteTree() { }
+}
+
+interface RouteTree {
+  route: string;
+  meta: Record<string, string>;
+  children: RouteTree[];
 }
 
 export const contentLoader = new ContentLoader();
