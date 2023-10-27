@@ -59,7 +59,7 @@ function SidebarItem({ href, title, children }: SidebarItemProps) {
     <div>
       <Link
         href={href}
-        className="text-white hover:text-white text-lg transition-all"
+        className="text-white hover:text-white text-lg transition-all underline-hover"
       >
         {title}
       </Link>
