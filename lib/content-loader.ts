@@ -54,3 +54,10 @@ function generateFileTree(startingDir: string): FileTree {
 
   return fileTree;
 }
+
+class ContentLoader {
+  map: Map<string, string> = generateRoutemap();
+
+  async getContent(path: string): [Component, frontmatter] { }
+  // use gray-matter to parse frontmatter
+}
