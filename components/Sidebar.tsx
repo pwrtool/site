@@ -1,37 +1,33 @@
 import Link from "next/link";
 
-const sidebarItems = [
+const sidebarItems: SidebarItemProps[] = [
   {
-    href: "/docs",
-    title: "Docs",
-    children: (
-      <>
-        <SidebarItem href="/docs/getting-started" title="Getting Started" />
-        <SidebarItem href="/docs/faq" title="FAQ" />
-        <SidebarItem href="/docs/roadmap" title="Roadmap" />
-        <SidebarItem href="/docs/development" title="Development" />
-      </>
-    ),
+    href: "/",
+    title: "Getting Started",
+    children: [
+      {
+        href: "/getting-started/installation",
+        title: "Installation",
+      },
+      {
+        href: "/getting-started/usage",
+        title: "Usage",
+      },
+    ],
   },
   {
-    href: "/blog",
-    title: "Blog",
-    children: (
-      <>
-        <SidebarItem href="/blog" title="Blog" />
-        <SidebarItem href="/blog/1" title="Blog Post" />
-      </>
-    ),
-  },
-  {
-    href: "/community",
-    title: "Community",
-    children: (
-      <>
-        <SidebarItem href="/community" title="Community" />
-        <SidebarItem href="/community/1" title="Community Post" />
-      </>
-    ),
+    href: "/api-reference",
+    title: "API Reference",
+    children: [
+      {
+        href: "/api-reference/props",
+        title: "Props",
+      },
+      {
+        href: "/api-reference/types",
+        title: "Types",
+      },
+    ],
   },
 ];
 
@@ -51,7 +47,7 @@ export default function Sidebar() {
 interface SidebarItemProps {
   href: string;
   title: string;
-  children?: React.ReactNode;
+  children?: SidebarItemProps[];
 }
 
 function SidebarItem({ href, title, children }: SidebarItemProps) {
@@ -63,7 +59,9 @@ function SidebarItem({ href, title, children }: SidebarItemProps) {
       >
         {title}
       </Link>
-      <div className="pl-2">{children}</div>
+      <div className="pl-2">
+        {children?.map((child) => <SidebarItem key={child.href} {...child} />)}
+      </div>
     </div>
   );
 }

@@ -69,6 +69,11 @@ class ContentLoader {
     const markdown = fs.readFileSync(path.join("content", filepath), "utf-8");
     return markdown;
   }
+
+  getRoutes() {
+    return Array.from(this.map.keys());
+  }
+  getRouteTree() { }
 }
 
 export const contentLoader = new ContentLoader();
