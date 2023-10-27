@@ -59,3 +59,11 @@ a {
   width: auto;
   height: auto;
 }
+
+.article {
+  @apply prose;
+}
+
+.h-screen-minus-header {
+  height: calc(100vh - 4.5rem);
+}
