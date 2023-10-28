@@ -3,8 +3,6 @@ import { contentTree, ContentNode } from "@/lib/content-tree";
 
 export default function Sidebar() {
   const sidebarItems = getSidebarItems(contentTree, "/docs");
-  console.log(sidebarItems);
-
   return (
     <div className="p-4 border-r-white border-r-2 h-screen-minus-header">
       <h2 className="text-2xl">Documentation</h2>
