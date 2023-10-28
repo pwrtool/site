@@ -1,34 +1,34 @@
 import Link from "next/link";
-
 const sidebarItems: SidebarItemProps[] = [
   {
-    href: "/",
+    href: "/docs",
     title: "Getting Started",
     children: [
-      {
-        href: "/getting-started/installation",
-        title: "Installation",
-      },
-      {
-        href: "/getting-started/usage",
-        title: "Usage",
-      },
+      { href: "/docs/installation", title: "Installation" },
+      { href: "/docs/usage", title: "Usage" },
     ],
   },
   {
-    href: "/api-reference",
+    href: "/docs/api",
     title: "API Reference",
     children: [
-      {
-        href: "/api-reference/props",
-        title: "Props",
-      },
-      {
-        href: "/api-reference/types",
-        title: "Types",
-      },
+      { href: "/docs/api/cli", title: "CLI" },
+      { href: "/docs/api/config", title: "Config" },
+      { href: "/docs/api/commands", title: "Commands" },
     ],
   },
+  {
+    href: "/docs/advanced",
+    title: "Advanced",
+    children: [
+      { href: "/docs/advanced/recipes", title: "Recipes" },
+      { href: "/docs/advanced/plugins", title: "Plugins" },
+      { href: "/docs/advanced/development", title: "Development" },
+    ],
+  },
+  { href: "/docs/faq", title: "FAQ" },
+  { href: "/docs/contributing", title: "Contributing" },
+  { href: "/docs/code-of-conduct", title: "Code of conduct" },
 ];
 
 export default function Sidebar() {
