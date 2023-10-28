@@ -1,37 +1,10 @@
 import Link from "next/link";
-const sidebarItems: SidebarItemProps[] = [
-  {
-    href: "/docs",
-    title: "Getting Started",
-    children: [
-      { href: "/docs/installation", title: "Installation" },
-      { href: "/docs/usage", title: "Usage" },
-    ],
-  },
-  {
-    href: "/docs/api",
-    title: "API Reference",
-    children: [
-      { href: "/docs/api/cli", title: "CLI" },
-      { href: "/docs/api/config", title: "Config" },
-      { href: "/docs/api/commands", title: "Commands" },
-    ],
-  },
-  {
-    href: "/docs/advanced",
-    title: "Advanced",
-    children: [
-      { href: "/docs/advanced/recipes", title: "Recipes" },
-      { href: "/docs/advanced/plugins", title: "Plugins" },
-      { href: "/docs/advanced/development", title: "Development" },
-    ],
-  },
-  { href: "/docs/faq", title: "FAQ" },
-  { href: "/docs/contributing", title: "Contributing" },
-  { href: "/docs/code-of-conduct", title: "Code of conduct" },
-];
+import { contentTree, ContentNode } from "@/lib/content-tree";
 
 export default function Sidebar() {
+  const sidebarItems = getSidebarItems(contentTree, "/docs");
+  console.log(sidebarItems);
+
   return (
     <div className="p-4 border-r-white border-r-2 h-screen-minus-header">
       <h2 className="text-2xl">Documentation</h2>
@@ -64,4 +37,15 @@ function SidebarItem({ href, title, children }: SidebarItemProps) {
       </div>
     </div>
   );
+}
+
+export function getSidebarItems(
+  contentTree: ContentNode[],
+  previousPath = "",
+): SidebarItemProps[] {
+  return contentTree.map((node) => ({
+    href: previousPath + "/" + node.route,
+    title: node.title,
+    children: getSidebarItems(node.children, previousPath + "/" + node.route),
+  }));
 }

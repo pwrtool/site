@@ -24,9 +24,9 @@ export default function Navbar() {
 }
 
 const navItems: NavItemProps[] = [
-  { text: "Docs", href: "/about", icon: <FaBook /> },
-  { text: "Install", href: "/contact", icon: <RiInstallLine /> },
-  { text: "GitHub", href: "/github", icon: <FaGithub /> },
+  { text: "Docs", href: "/docs", icon: <FaBook /> },
+  { text: "Install", href: "/docs/install", icon: <RiInstallLine /> },
+  { text: "GitHub", href: "https://github.com/pwrtool", icon: <FaGithub /> },
 ];
 
 interface NavItemProps {
