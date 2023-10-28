@@ -1,4 +1,4 @@
-import { getNodeFromRoute } from "@/lib/content-tree";
+import { getNodeFromRoute, generateContentTree } from "@/lib/content-tree";
 import { describe, expect, test } from "bun:test";
 
 describe("getNodeFromRoute", () => {
@@ -55,5 +55,60 @@ describe("getNodeFromRoute", () => {
     expect(() => getNodeFromRoute(route, contentTree)).toThrow(
       "Could not find route not-found",
     );
+  });
+});
+
+describe("generateContentTree", () => {
+  test("It returns a content tree", () => {
+    const files = [
+      {
+        title: "Getting Started",
+        content: "getting started page",
+        filepath: "getting-started/index.mdx",
+      },
+      {
+        title: "Install",
+        content: "installation page",
+        filepath: "getting-started/install.mdx",
+      },
+      {
+        title: "Setup",
+        content: "This is the setup page.\n# Hello world!",
+        filepath: "getting-started/setup.mdx",
+      },
+      {
+        title: "Writing Powertools",
+        content: "page about writing powertools",
+        filepath: "writing-powertools",
+      },
+    ];
+    const contentTree = generateContentTree(files);
+    expect(contentTree).toEqual([
+      {
+        title: "Getting Started",
+        content: "getting started page",
+        route: "getting-started",
+        children: [
+          {
+            title: "Install",
+            content: "installation page",
+            route: "install",
+            children: [],
+          },
+          {
+            title: "Setup",
+            content: "This is the setup page.\n# Hello world!",
+            route: "setup",
+            children: [],
+          },
+        ],
+      },
+      {
+        title: "Writing Powertools",
+        content: "page about writing powertools",
+        route: "writing-powertools",
+        children: [],
+      },
+    ]);
   });
 });

@@ -47,3 +47,32 @@ export function getNodeFromRoute(
   }
   return getNodeFromRoute(restRoute, currentNode.children);
 }
+
+export function generateContentTree(files: ContentFile[]): ContentNode[] {
+  return files.map((file) => {
+    const route = file.filepath
+      .split("/")
+      .map((part) => part.replace(".mdx", ""));
+    const [currentRoute, ...restRoute] = route;
+    const currentNode: ContentNode = {
+      title: file.title,
+      content: file.content,
+      route: currentRoute,
+      children: [],
+    };
+
+    if (restRoute.length === 0) {
+      return currentNode;
+    }
+    const children = generateContentTree([file]);
+    currentNode.children = children;
+
+    return currentNode;
+  });
+}
+
+type ContentFile = {
+  title: string;
+  filepath: string;
+  content: string;
+};
