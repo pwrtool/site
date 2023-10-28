@@ -8,6 +8,7 @@ export default function Sidebar() {
   return (
     <div className="p-4 border-r-white border-r-2 h-screen-minus-header">
       <h2 className="text-2xl">Documentation</h2>
+
       <div className="mt-4">
         {sidebarItems.map((item) => (
           <SidebarItem key={item.href} {...item} />
