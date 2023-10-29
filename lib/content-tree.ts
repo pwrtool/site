@@ -49,23 +49,60 @@ export function getNodeFromRoute(
 }
 
 export function generateContentTree(files: ContentFile[]): ContentNode[] {
+  const nodeList: ContentNode[] = [];
+
+  for (const file of files) {
+    file.filepath = file.filepath.replace(".mdx", "").replace(".md", "");
+    const route = file.filepath.split("/");
+    if (route[route.length - 1] === "index") {
+      route.pop();
+    }
+
+    const node = {
+      title: file.title,
+      content: file.content,
+      route: route.join("/"),
+      children: [],
+    };
+    nodeList.push(node);
+  }
+  console.log(nodeList);
+
+  return [];
+}
+
+// takes a one dimenional list of nodes and returns a tree
+// the route of each node contains slashes, which are used to determine the tree structure
+// e.g. the node with the route "a/b/c" is a child of the node with the route "a/b"
+export function sortContentTree(nodes: ContentNode[]): ContentNode[] {
   const tree: ContentNode[] = [];
 
-  // split files based on their route
-  const filesByRoute: Record<string, ContentFile[]> = {};
-  files.forEach((file) => {
-    const route = file.filepath.split("/");
-    const [currentRoute, ...restRoute] = route;
-    if (!filesByRoute[currentRoute]) {
-      filesByRoute[currentRoute] = [];
-    }
-    filesByRoute[currentRoute].push({
-      ...file,
-      filepath: restRoute.join("/"),
-    });
-  });
+  const routeList: [string[], ContentNode][] = [];
 
-  console.log(filesByRoute);
+  for (const node of nodes) {
+    const route = node.route.split("/");
+    routeList.push([route, node]);
+  }
+
+  while (routeList.length > 0) {
+    const [route, node] = routeList.pop()!;
+
+    if (route.length === 0) {
+      tree.push(node);
+      continue;
+    }
+
+    const [currentRoute, ...restRoute] = route;
+
+    const parentNode = tree.find((node) => node.route === currentRoute);
+    if (!parentNode) {
+      throw new Error(`Could not find parent node with route ${currentRoute}`);
+    }
+
+    parentNode.children.push(node);
+  }
+
+  console.log(routeList);
 
   return tree;
 }
