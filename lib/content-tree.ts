@@ -49,26 +49,25 @@ export function getNodeFromRoute(
 }
 
 export function generateContentTree(files: ContentFile[]): ContentNode[] {
-  return files.map((file) => {
-    const route = file.filepath
-      .split("/")
-      .map((part) => part.replace(".mdx", ""));
+  const tree: ContentNode[] = [];
+
+  // split files based on their route
+  const filesByRoute: Record<string, ContentFile[]> = {};
+  files.forEach((file) => {
+    const route = file.filepath.split("/");
     const [currentRoute, ...restRoute] = route;
-    const currentNode: ContentNode = {
-      title: file.title,
-      content: file.content,
-      route: currentRoute,
-      children: [],
-    };
-
-    if (restRoute.length === 0) {
-      return currentNode;
+    if (!filesByRoute[currentRoute]) {
+      filesByRoute[currentRoute] = [];
     }
-    const children = generateContentTree([file]);
-    currentNode.children = children;
-
-    return currentNode;
+    filesByRoute[currentRoute].push({
+      ...file,
+      filepath: restRoute.join("/"),
+    });
   });
+
+  console.log(filesByRoute);
+
+  return tree;
 }
 
 type ContentFile = {
