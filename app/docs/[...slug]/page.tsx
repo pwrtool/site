@@ -1,6 +1,6 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { redirect } from "next/navigation";
-import { contentTree, getNodeFromRoute } from "@/lib/content-tree";
+import { contentRoutes, getContentRoute } from "@/lib/content";
 
 export default function Page({
   params,
@@ -14,10 +14,15 @@ export default function Page({
     redirect("/docs/" + params.slug.slice(1).join("/"));
   }
 
-  const node = getNodeFromRoute(params.slug, contentTree);
+  const node = getContentRoute(params.slug.join("/"), contentRoutes);
+
+  if (!node) {
+    return <div>404</div>;
+  }
+
   return (
     <article>
-      <h1>{node.title}</h1>
+      <h1>{node.frontmatter.title}</h1>
       <MDXRemote source={node.content} />
     </article>
   );

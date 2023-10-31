@@ -103,16 +103,17 @@ function removeMarkdownExtension(file: string): string {
   return file.replace(".mdx", "").replace(".md", "");
 }
 
-// EXECUTION
-FancyOut.header("Searching for content files...");
-const contentFiles = getContentFiles();
-for (const file of contentFiles) {
-  FancyOut.out(`  ${file.filepath}`);
+export function getContentRoute(
+  route: string,
+  routes: ContentRoute[],
+): ContentRoute | undefined {
+  for (const contentRoute of routes) {
+    if (contentRoute.route === route) {
+      return contentRoute;
+    }
+  }
+  return undefined;
 }
 
-FancyOut.header("\nParsing content routes...");
+const contentFiles = getContentFiles();
 export const contentRoutes = getContentRoutes(contentFiles);
-for (const route of contentRoutes) {
-  FancyOut.out(`  ${route.route}`);
-}
-FancyOut.info(`\nFound ${contentRoutes.length} content routes.\n`);
