@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { contentTree, ContentNode } from "@/lib/content-tree";
+import { contentTree } from "@/lib/content";
 
 export default function Sidebar() {
   const sidebarItems = getSidebarItems(contentTree, "/docs");
@@ -39,7 +39,7 @@ function SidebarItem({ href, title, children }: SidebarItemProps) {
 }
 
 export function getSidebarItems(
-  contentTree: ContentNode[],
+  contentTree: any[],
   previousPath = "",
 ): SidebarItemProps[] {
   return contentTree.map((node) => ({
