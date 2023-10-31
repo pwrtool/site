@@ -1,5 +1,6 @@
 import fs from "fs";
 import matter from "gray-matter";
+import { FancyOut } from "@pwrtool/fancy-out";
 
 export const contentTree = [
   {
@@ -98,9 +99,20 @@ export function getContentRoutes(files: ContentFile[]): ContentRoute[] {
   return routes;
 }
 
-export function removeMarkdownExtension(file: string): string {
-  return file.replace(".md", "").replace(".mdx", "");
+function removeMarkdownExtension(file: string): string {
+  return file.replace(".mdx", "").replace(".md", "");
 }
 
-console.log("Loading content files...");
-console.log(getContentFiles());
+// EXECUTION
+FancyOut.header("Searching for content files...");
+const contentFiles = getContentFiles();
+for (const file of contentFiles) {
+  FancyOut.out(`  ${file.filepath}`);
+}
+
+FancyOut.header("\nParsing content routes...");
+export const contentRoutes = getContentRoutes(contentFiles);
+for (const route of contentRoutes) {
+  FancyOut.out(`  ${route.route}`);
+}
+FancyOut.info(`\nFound ${contentRoutes.length} content routes.\n`);
