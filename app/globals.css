@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #e33822;
+  --color-primary-hover: #e94a1d;
+}
+
+body {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #ffffff;
+}
+
+main {
+  @apply m-4;
+}
+
+a {
+  @apply text-primary transition-all text-primary-hover;
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+.text-primary-hover:hover {
+  color: var(--color-primary-hover);
+}
+
+.underline-hover {
+  text-decoration: none;
+  background-image: linear-gradient(#ffffff, #ffffff);
+  background-size: 0% 0.1em;
+  background-position-y: 100%;
+  background-position-x: 50%;
+  background-repeat: no-repeat;
+  transition: background-size 0.2s ease-in-out;
+}
+
+.underline-hover:hover,
+.underline-hover:focus,
+.underline-hover:active {
+  background-size: 100% 0.1em;
+}
+
+.invisible {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.visible {
+  visibility: visible;
+  width: auto;
+  height: auto;
+}
+
+.article {
+  @apply prose;
+}
+
+.h-screen-minus-header {
+  height: calc(100vh - 4.5rem);
+}
