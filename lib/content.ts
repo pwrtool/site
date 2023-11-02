@@ -1,6 +1,5 @@
 import fs from "fs";
 import matter from "gray-matter";
-import { FancyOut } from "@pwrtool/fancy-out";
 
 export const contentTree = [
   {
@@ -113,6 +112,33 @@ export function getContentRoute(
     }
   }
   return undefined;
+}
+
+interface SplitRoute {
+  prefix: string;
+  routes: (ContentRoute | SplitRoute)[];
+}
+export function splitContentRoutes(
+  contentRoutes: ContentRoute[],
+): SplitRoute[] {
+  const splitRoutes: SplitRoute[] = [];
+
+  for (let i = 0; i < contentRoutes.length; i++) {
+    const route = contentRoutes[i];
+    const split = route.route.split("/");
+    const prefix = split[0];
+    let splitRoute = splitRoutes.find((r) => r.prefix === prefix);
+    if (!splitRoute) {
+      splitRoute = { prefix: prefix, routes: [] };
+      splitRoutes.push(splitRoute);
+    }
+
+    split.shift();
+    route.route = split.join("/");
+    splitRoute.routes.push(route);
+  }
+
+  return splitRoutes;
 }
 
 const contentFiles = getContentFiles();
