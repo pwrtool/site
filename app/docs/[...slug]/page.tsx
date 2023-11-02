@@ -19,7 +19,7 @@ export default function Page({
   console.log(node);
 
   if (!node) {
-    return <div>404</div>;
+    redirect("/404");
   }
 
   return (
