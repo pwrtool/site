@@ -1,33 +1,10 @@
 import fs from "fs";
 import matter from "gray-matter";
 
-export const contentTree = [
-  {
-    title: "Getting Started",
-    content: "getting started page",
-    route: "getting-started",
-    children: [
-      {
-        title: "Install",
-        content: "installation page",
-        route: "install",
-        children: [],
-      },
-      {
-        title: "Setup",
-        content: "This is the setup page.\n# Hello world!",
-        route: "setup",
-        children: [],
-      },
-    ],
-  },
-  {
-    title: "Writing Powertools",
-    content: "page about writing powertools",
-    route: "writing-powertools",
-    children: [],
-  },
-];
+export interface SplitRoute {
+  prefix: string;
+  routes: (ContentRoute | SplitRoute)[];
+}
 
 export type ContentRoute = {
   content: string;
@@ -114,10 +91,6 @@ export function getContentRoute(
   return undefined;
 }
 
-interface SplitRoute {
-  prefix: string;
-  routes: (ContentRoute | SplitRoute)[];
-}
 export function splitContentRoutes(
   contentRoutes: ContentRoute[],
 ): SplitRoute[] {

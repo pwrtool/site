@@ -1,17 +1,12 @@
 import Link from "next/link";
-import { contentTree } from "@/lib/content";
+import { SplitRoute, splitContentRoutes, contentRoutes } from "@/lib/content";
 
 export default function Sidebar() {
-  const sidebarItems = getSidebarItems(contentTree, "/docs");
   return (
     <div className="p-4 border-r-white border-r-2 h-screen-minus-header">
       <h2 className="text-2xl">Documentation</h2>
 
-      <div className="mt-4">
-        {sidebarItems.map((item) => (
-          <SidebarItem key={item.href} {...item} />
-        ))}
-      </div>
+      <div className="mt-4"></div>
     </div>
   );
 }
@@ -36,15 +31,4 @@ function SidebarItem({ href, title, children }: SidebarItemProps) {
       </div>
     </div>
   );
-}
-
-export function getSidebarItems(
-  contentTree: any[],
-  previousPath = "",
-): SidebarItemProps[] {
-  return contentTree.map((node) => ({
-    href: previousPath + "/" + node.route,
-    title: node.title,
-    children: getSidebarItems(node.children, previousPath + "/" + node.route),
-  }));
 }
