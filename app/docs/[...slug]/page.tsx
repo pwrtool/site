@@ -5,9 +5,7 @@ import { contentRoutes, getContentRoute } from "@/lib/content";
 export default function Page({
   params,
 }: {
-  params: {
-    slug: string[];
-  };
+  params: any;
   children: React.ReactNode;
 }) {
   if (params.slug[0] === "docs") {
