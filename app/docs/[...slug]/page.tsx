@@ -5,8 +5,9 @@ import { contentRoutes, getContentRoute } from "@/lib/content";
 export default function Page({
   params,
 }: {
-  params: any;
-  children: React.ReactNode;
+  params: {
+    slug: string[];
+  };
 }) {
   if (params.slug[0] === "docs") {
     redirect("/docs/" + params.slug.slice(1).join("/"));
