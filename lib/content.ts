@@ -3,7 +3,7 @@ import matter from "gray-matter";
 
 export interface SplitRoute {
   prefix: string;
-  routes: (ContentRoute | SplitRoute)[];
+  routes: ContentRoute[];
 }
 
 export type ContentRoute = {
