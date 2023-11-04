@@ -25,10 +25,14 @@ function SidebarItem({ route, parentPrefix = "" }: SidebarItemProps) {
   let title = capitalizeFirstLetter(route.prefix);
   let href = parentPrefix + route.prefix + "/";
 
-  const contentRoute = route.routes.find((r) => r.route === "");
-  if (contentRoute) {
-    title = contentRoute.frontmatter.title ?? title;
-    href = parentPrefix + route.prefix + contentRoute.route + "/";
+  for (let i = 0; i < route.routes.length; i++) {
+    const currentRoute = route.routes[i];
+    console.log(currentRoute);
+
+    if (currentRoute.route === "") {
+      console.log("found index route:");
+      console.log(currentRoute);
+    }
   }
 
   const splitRoutes = splitContentRoutes(route.routes);
