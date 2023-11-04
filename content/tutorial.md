@@ -235,4 +235,35 @@ input: hello
 output: world
 ```
 
-I can now get the good output without providing anything
+I can now get the "correct" output without providing anything
+
+# Parsing a markdown file
+
+As a general rule, the code for each tool inside of `index.ts` should only do:
+
+1. parse the inputs
+2. run some function to do whatever thing you're doing
+3. give an output based on the result of #2
+
+If the tool is very simple, you can just put the actual logic for it in the `index.ts` file, but for anything complex (anything greater than around 50 lines) it's recommended you create a `lib/` folder and write some tests.
+
+Our tool passes this complexity threshhold, so we'll first work on parsing the actual files into something we can read. To do this, create a `lib/parse.ts` file.
+
+## Interface
+
+We'll create the `ContentFile` type like so:
+
+```ts
+type ContentFile = {
+  filename: string;
+  extension: string;
+  content: string;
+  frontmatter: object;
+};
+```
+
+## Test
+
+## Code
+
+# Generating the list.json
