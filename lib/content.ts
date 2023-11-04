@@ -39,7 +39,19 @@ function getContentFiles(): ContentFile[] {
     return filelist;
   };
 
-  const contentFilePaths = walkSync("content");
+  // find content folder by continuously searching parent directories
+  // until we find a folder named content
+
+  let contentFolder = "content";
+  let parentDir = "..";
+  while (!fs.existsSync(contentFolder)) {
+    contentFolder = `${parentDir}/${contentFolder}`;
+    parentDir = `${parentDir}/..`;
+  }
+  console.log(`Whereami? ${process.cwd()}`);
+  console.log(`Content Folder: ${contentFolder}`);
+
+  const contentFilePaths = walkSync(contentFolder);
   for (const contentFile of contentFilePaths) {
     const content = fs.readFileSync(contentFile, "utf8");
     const { data, content: markdownContent } = matter(content);

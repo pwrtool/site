@@ -27,16 +27,15 @@ function SidebarItem({ route, parentPrefix = "" }: SidebarItemProps) {
 
   for (let i = 0; i < route.routes.length; i++) {
     const currentRoute = route.routes[i];
-    console.log(currentRoute);
 
     if (currentRoute.route === "") {
-      console.log("found index route:");
-      console.log(currentRoute);
+      title = currentRoute.frontmatter.title;
+      href = parentPrefix + route.prefix + "/";
+      break;
     }
   }
 
   const splitRoutes = splitContentRoutes(route.routes);
-  console.log(splitRoutes);
 
   return (
     <div>
