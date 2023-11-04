@@ -9,7 +9,7 @@ import {
 export default function Sidebar() {
   const routes = splitContentRoutes(contentRoutes);
   return (
-    <div className="p-4 border-r-white border-r-2 h-screen-minus-header">
+    <div className="p-4 border-r-gray-500 border-r-2 border-0 h-screen-minus-header">
       <h2 className="text-2xl">Documentation</h2>
 
       <div className="mt-4">
