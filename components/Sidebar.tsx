@@ -1,5 +1,10 @@
 import Link from "next/link";
-import { SplitRoute, splitContentRoutes, contentRoutes } from "@/lib/content";
+import {
+  SplitRoute,
+  splitContentRoutes,
+  ContentRoute,
+  contentRoutes,
+} from "@/lib/content";
 
 export default function Sidebar() {
   const routes = splitContentRoutes(contentRoutes);
@@ -24,14 +29,18 @@ interface SidebarItemProps {
 function SidebarItem({ route, parentPrefix = "" }: SidebarItemProps) {
   let title = capitalizeFirstLetter(route.prefix);
   let href = parentPrefix + route.prefix + "/";
+  console.log("\n\nNew sidebar Item");
+  console.log(route);
 
+  const newRoutes: ContentRoute[] = [];
   for (let i = 0; i < route.routes.length; i++) {
     const currentRoute = route.routes[i];
 
     if (currentRoute.route === "") {
       title = currentRoute.frontmatter.title;
       href = parentPrefix + route.prefix + "/";
-      break;
+    } else {
+      newRoutes.push(currentRoute);
     }
   }
 
