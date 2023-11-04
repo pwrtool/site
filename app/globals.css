@@ -12,10 +12,6 @@ body {
   color: #ffffff;
 }
 
-.border-bottom {
-  border-bottom: 1px solid #ffffff;
-}
-
 main {
   @apply m-4;
 }
