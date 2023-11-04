@@ -1,3 +1,12 @@
+# Prerequisites
+
+I'm going to assume that:
+
+- You know typescript reasonably well
+- You have powertool and the std kit installed
+- You are on linux or MacOS
+- You are at least an intermediate level programmer. I'm not going to be explaining any of the basic stuff
+
 # What are we building?
 
 Let's build a kit that parses a bunch of markdown files into JSON for use in a static site generator. For example, lets say we have the filetree:
@@ -110,5 +119,120 @@ To create the project, we'll first create an empty repo. I prefer to do this wit
 gh repo create
 cd simple-content-layer
 ptx pwrtool/std new-kit
+bun install
 nvim .
 ```
+
+For this tutorial, we won't be doing anything fancy with the `run.sh` script or `install.sh` script. They aren't executables by default though, so make sure to run:
+
+```bash
+chmod +x run.sh
+chmod +x install.sh
+```
+
+Now let's make sure that the default hello world is working. Run the command `ptx pwrtool/std test-run`. If you answer the first question with "default", you should see output that looks like:
+
+```txt
+Running the test-run tool from pwrtool/std
+🔍 Searching for local install.sh
+📂 Using kit directory: /home/firesquid/source/simple-content-layer
+✅️ Found install.sh file
+
+📜 Running install script in /home/firesquid/source/simple-content-layer
+bun install v1.0.8 (2a405f69)
+
+Checked 4 installs across 5 packages (no changes) [1.00ms]
+✅️ No errors found in install script!
+Run `ptx bench/test <tool>` to test your kit
+
+What tool do you want to run?
+default
+
+Running default from bench/test:
+Hello world!
+Tool finished successfully.
+```
+
+# Getting our Inputs
+
+## Plan
+
+We'll need two inputs from the user:
+
+1. Where are your markdown files?
+2. Where do you want the crap to go?
+
+To get this, we'll ask in two different ways:
+
+1. If the user provided a CLI arg, we'll just go with that
+2. If no CLI arg was provided, check the config file
+3. If neither of those two work, we'll just throw an error
+
+### Why not ask a question if the first two fail?
+
+I'm building this under the assumption that it will be used in CI pipelines. Since you can't answer questions there, it's better to just throw an error. Questions are best used when the following conditions are true:
+
+1. A human will always be running the tool (questions are automatable but painful)
+2. The input is long or complex
+3. The input is part of a sequential chain
+
+## Code
+
+To get these inputs, we'll use the following code for `index.ts`:
+
+```ts
+import powertool from "@pwrtool/kit";
+
+powertool([
+  {
+    name: "default",
+    function: async (IO, CliArgs, Config) => {
+      const argsKeys = ["input", "output"];
+      const argValues = [];
+
+      for (const key of argsKeys) {
+        if (CliArgs.exists(key)) {
+          argValues.push(CliArgs.get(key));
+          continue;
+        }
+        if (Config.exists(key)) {
+          argValues.push(Config.get(key));
+          continue;
+        }
+
+        IO.error(`${key} could not be found in cli args or config`);
+        break;
+      }
+
+      const [input, output] = argValues;
+      IO.out(`input: ${input}`);
+      IO.out(`output: ${output}`);
+    },
+  },
+]);
+```
+
+Now let's test and see if it works. If I run `ptx pwrtool/std test-run input=hello output=world`, the output I get is:
+
+```txt
+intput: hello
+output: world
+```
+
+If I don't provide anything, I get the output:
+
+```txt
+input could not be found in cli args or config
+input: undefined
+output: undefined
+```
+
+If I create a `ptconfig.yaml` file in the cwd that looks like:
+
+```yaml
+---
+input: hello
+output: world
+```
+
+I can now get the good output without providing anything
