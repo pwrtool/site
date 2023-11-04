@@ -63,3 +63,12 @@ a {
 .h-screen-minus-header {
   height: calc(100vh - 4.5rem);
 }
+
+.big-logo-shadow {
+  background-image: radial-gradient(
+    circle at 30% 107%,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
