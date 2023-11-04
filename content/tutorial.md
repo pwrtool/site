@@ -104,10 +104,11 @@ The frontmatter for this in json would be:
 
 # Creating the project
 
-To create the project, we'll first create an empty repo. I prefer to do this with the github CLI, but you can do what you want.
+To create the project, we'll first create an empty repo. I prefer to do this with the github CLI, but you can do what you want. I'll call this repo "Simple Content Layer" (If you're wondering, I am writing this article while building the actual repo Simple Content Layer). Once inside the folder, I'll run `ptx pwrtool/std new-kit` to create the new kit, and open it in my editor.
 
 ```bash
 gh repo create
+cd simple-content-layer
+ptx pwrtool/std new-kit
+nvim .
 ```
-
-I'll call this repo "Simple Content Layer" (If you're wondering, I am writing this article while building the actual repo Simple Content Layer).
