@@ -468,7 +468,6 @@ Not my finest work, but it passes the tests:
 
 ```ts
 export function getRoute(filepath: string): string {
-  // remove slash at start and end of string
   if (filepath.at(0) === "/") {
     filepath = filepath.slice(0);
   }
@@ -498,9 +497,84 @@ export function getRoute(filepath: string): string {
 Now that we have all the ingredients, we can put it together to make one very cool function:
 
 ```ts
+export function getContentRoutes(files: ContentFile[]): ContentRoute[] {
+  const routes: ContentRoute[] = [];
+  for (const file of files) {
+    const route: ContentRoute = {
+      route: "",
+      content: "",
+      outline: [],
+      frontmatter: {},
+    };
 
+    const { content, frontmatter } = splitFrontmatter(file.data);
+    route.frontmatter = frontmatter;
+    route.content = content;
+
+    route.route = getRoute(file.path);
+    route.extension = file.extension;
+    route.outline = getHeaders(content);
+
+    routes.push(route);
+  }
+
+  return routes;
+}
 ```
 
 # Outputting the files
 
+Now we just need to create two functions to get the output files. I'll put them in `lib/output.ts`:
+
+```ts
+export type OutputFile = {
+  content: string;
+  outline: Header[];
+  extension: string;
+  frontmatter: object;
+};
+
+export function getOutputFiles(
+  routes: ContentRoute[],
+): Map<string, OutputFile> {
+  const outputFiles = new Map<string, OutputFile>();
+
+  for (const route of routes) {
+    const key = route.route.replace("/", ">") + ".json";
+    outputFiles.set(key, {
+      content: route.content,
+      outline: route.outline,
+      extension: route.extension ?? "md",
+      frontmatter: route.frontmatter,
+    });
+  }
+
+  return outputFiles;
+}
+
+type ListItem = {
+  route: string;
+  frontmatter: object;
+  outline: Header[];
+};
+
+export type ListFile = ListItem[];
+
+export function getListFile(routes: ContentRoute[]): ListFile {
+  const listFile: ListFile = [];
+  for (const route of routes) {
+    const listItem: ListItem = {
+      route: route.route,
+      frontmatter: route.frontmatter,
+      outline: route.outline,
+    };
+    listFile.push(listItem);
+  }
+
+  return listFile;
+}
+```
+
 # Wrapping it Up
+
+Now head back to your `index.ts` file to create the final output of the tool.
