@@ -48,8 +48,6 @@ function getContentFiles(): ContentFile[] {
     contentFolder = `${parentDir}/${contentFolder}`;
     parentDir = `${parentDir}/..`;
   }
-  console.log(`Whereami? ${process.cwd()}`);
-  console.log(`Content Folder: ${contentFolder}`);
 
   const contentFilePaths = walkSync(contentFolder);
   for (const contentFile of contentFilePaths) {
@@ -91,16 +89,19 @@ function removeMarkdownExtension(file: string): string {
   return file.replace(".mdx", "").replace(".md", "");
 }
 
-export function getContentRoute(
-  route: string,
-  routes: ContentRoute[],
-): ContentRoute | undefined {
-  for (const contentRoute of routes) {
-    if (contentRoute.route === route) {
-      return contentRoute;
-    }
-  }
-  return undefined;
+export async function getContentRoute(route: string): Promise<ContentRoute> {
+  const checkRoute = "/content/content>" + route.replaceAll("/", ">") + ".json";
+  console.log(checkRoute);
+  const data = await fetch(checkRoute);
+  console.log(data.json());
+
+  return Promise.resolve({
+    content: "content",
+    route: "route",
+    frontmatter: {
+      title: "title",
+    },
+  });
 }
 
 export function splitContentRoutes(

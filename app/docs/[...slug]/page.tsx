@@ -1,20 +1,16 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { redirect } from "next/navigation";
-import { contentRoutes, getContentRoute } from "@/lib/content";
+import { getContentRoute } from "@/lib/content";
 
-export default function Page({
+export default async function Page({
   params,
 }: {
   params: {
     slug: string[];
   };
 }) {
-  if (params.slug[0] === "docs") {
-    redirect("/docs/" + params.slug.slice(1).join("/"));
-  }
-  console.log(contentRoutes);
-
-  const node = getContentRoute(params.slug.join("/"), contentRoutes);
+  const route = "docs/" + params.slug.join("/");
+  const node = await getContentRoute(route);
   console.log(node);
 
   if (!node) {
