@@ -462,7 +462,36 @@ Figuring out the route is also not that difficult. Here's basically what we want
 - docs/another/coolthing -> docs/another/coolthing
 - docs/another/index -> docs/another
 
-We really just need to check if there's an index at the end, and remove it if there is
+We really just need to check if there's an index at the end, and remove it if there is.
+
+Not my finest work, but it passes the tests:
+
+```ts
+export function getRoute(filepath: string): string {
+  // remove slash at start and end of string
+  if (filepath.at(0) === "/") {
+    filepath = filepath.slice(0);
+  }
+
+  const len = filepath.length;
+  if (filepath.at(len - 1) === "/") {
+    filepath = filepath.substring(0, len - 1);
+  }
+
+  const split = filepath.split("/");
+  if (split[split.length - 1] === "index") {
+    split.pop();
+  }
+
+  let route = split.join("/");
+
+  if (route.at(0) !== "/") {
+    route = "/" + route;
+  }
+
+  return route;
+}
+```
 
 ## Put it all together!
 
