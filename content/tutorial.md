@@ -36,7 +36,16 @@ We should output something that looks like:
 public/
   genreated-content/
     list.json
-    content.json
+    getting-started.json
+    getting-started>installation.json
+    getting-started>usage.json
+    building-kits.json
+    building-kits>using-action-files.json
+    building-kits>bun.json
+    building-kits>bun>api.json
+    posts>release-1.0.json
+    posts>release-2.0.json
+    ...
 ```
 
 The `list.json` file should be:
@@ -76,14 +85,24 @@ The `list.json` file should be:
 ]
 ```
 
-For every markdown file there should be an entry in the `list.json` file containing the route it should be served at, an outline for the file (based on its headers), and the frontmatter in the markdown file. The `content.json` file has the same thing has the `list.json` file, but also contains an extra `content` field, which contains the raw content in the file. It's split into two different files, because something like a navbar would only care about the metadata and where to link to for each route, so there's no point in storing all of the data about content.
+It's useful for building something like a sidebar which needs to know about each route, but not the actual content.
 
-In the future, it may be beneficial to split the `content.json` file into multiple files to avoid overfetching for every single route. I'm not going to do that in this tutorial, since I'm assuming:
+All of the other files are the actual data on each route. It should look something like:
 
-1. If you had a lot of content, you'd use a more complex solution such as hugo
-2. You're using something like next.js which caches fetch calls so it really doesn't matter that much
+```json
+{
+    "frontmatter": {
+        "title": "Something"
+        ...
+    },
+    "outline": [
+        ...
+    ],
+    "content": "this is the raw content in text for the file\n. It could be very long, which is why we split it into multiple files.\n"
+}
+```
 
-If it's too slow for the purposes of the powertool documentation (Which you're reading right now!), I'll change it later.
+It's basically the same as the entries for list.json, but also contains the content field for the actual raw content in each markdown file. It's the burden of the consumer of this tool to parse that content into HTML. At the end, I'll demo how to do that using Next.js and it's MDX renderer.
 
 ### A note on frontmatter
 
@@ -247,23 +266,177 @@ As a general rule, the code for each tool inside of `index.ts` should only do:
 
 If the tool is very simple, you can just put the actual logic for it in the `index.ts` file, but for anything complex (anything greater than around 50 lines) it's recommended you create a `lib/` folder and write some tests.
 
-Our tool passes this complexity threshhold, so we'll first work on parsing the actual files into something we can read. To do this, create a `lib/parse.ts` file.
+## Reading from the filesystem
 
-## Interface
+We're going to use a technique called dependnecy injection to deal with reading and wring to the filesystem. To do this, create the `lib/filesystem.ts` file.
 
-We'll create the `ContentFile` type like so:
+In this file, create the `Filesystem` interface:
 
 ```ts
-type ContentFile = {
-  filename: string;
+export interface Filesystem {
+  files: string[];
+  read(filepath: string): string | null;
+  exists(filepath: string): boolean;
+}
+```
+
+There's no write function since we won't need it.
+
+We'll then wrap the `fs` package using this interface and create a class called `LocalDirectory`:
+
+```ts
+export class LocalDirectory implements Filesystem {
+  files: string[] = [];
+
+  constructor(directory: string) {
+    this.files = recursivelyReadDir(directory);
+  }
+
+  read(filepath: string): string | null {
+    if (fs.existsSync(filepath)) {
+      console.log("exists");
+      return fs.readFileSync(filepath, "utf8");
+    } else {
+      return null;
+    }
+  }
+
+  exists(filepath: string): boolean {
+    return this.files.includes(filepath);
+  }
+}
+```
+
+You'll also need a `recursivelyReadDir` function:
+
+```ts
+function recursivelyReadDir(directory: string): string[] {
+  const files = fs.readdirSync(directory);
+  const results: string[] = [];
+
+  for (const file of files) {
+    const filepath = `${directory}/${file}`;
+
+    if (fs.statSync(filepath).isDirectory()) {
+      results.push(...recursivelyReadDir(filepath));
+    } else {
+      results.push(filepath);
+    }
+  }
+
+  return results;
+}
+```
+
+Now that we can read from the filesystem, we can move on to creating a list of content files.
+
+## Creating ContentFiles
+
+First, create a file called `lib/parse.ts`. This file will be used for turning raw files into a type we can deal with and sort. We'll create the `ContentFile` type like so:
+
+```ts
+export type ContentFile = {
+  path: string;
   extension: string;
-  content: string;
-  frontmatter: object;
+  data: string;
 };
 ```
 
-## Test
+We'll also need a `parseFilesInDirectory` function to turn a filesystem into an array of `ContentFile`s. I wrote some tests for this, but I won't bother including those here. Here's the code for `parseFilesInDirectory`:
 
-## Code
+```ts
+export function parseFilesInDirectory(
+  filesystem: Filesystem,
+  allowedExtensions = ["md", "mdx"],
+): ContentFile[] {
+  const files = filesystem.files;
+  const results: ContentFile[] = [];
 
-# Generating the list.json
+  for (const file of files) {
+    let path = file.replace(/^\.\//, "");
+
+    const pathParts = path.split(".");
+    const extension = pathParts.pop();
+    path = pathParts.join(".");
+
+    if (!extension || !allowedExtensions.includes(extension)) {
+      continue;
+    }
+    const data = filesystem.read(file);
+    if (data) {
+      results.push({
+        path: path,
+        extension: extension || "",
+        data,
+      });
+    }
+  }
+
+  return results;
+}
+```
+
+# Generating ContentRoutes
+
+Now we'll need the `ContentRoute` type. This should look like the JSON you saw earlier for each route file. Create a `lib/route.ts` file with the following code:
+
+```ts
+export type ContentRoute = {
+  route: string;
+  content: string;
+  frontmatter: object;
+  outline: Header[];
+};
+```
+
+You'll get an error with the `OutlineNode` type. We'll create that in a bit.
+
+Now it's time to actually create the `ContentRoutes` that we'll output in our json files. To do this we'll need to:
+
+1. Figure out the route based on the filepath (i.e. docs/index.md -> docs/)
+2. Get the Outline for a file
+3. Get the frontmatter for a file
+
+## Generating Outlines
+
+In that same file, create the `OutlineNode` type:
+
+```ts
+export type Header = {
+  text: string;
+  level: string;
+};
+```
+
+Now let's write an algorithm to find these headers!
+
+Use the following function:
+
+```ts
+export function getHeaders(content: string): Header[] {
+  const headers: Header[] = [];
+  const lines = content.split("\n");
+
+  for (const line of lines) {
+    const match = line.match(/^(#+)\s+(.*)$/);
+    if (match) {
+      const level = match[1].length;
+      const text = match[2];
+      headers.push({
+        text,
+        level,
+      });
+    }
+  }
+
+  return headers;
+}
+```
+
+Github copilot autocompleted this one for me. No clue what the regex even does tbh.
+
+## Parsing Frontmatter
+
+# Outputting the files
+
+# Wrapping it Up
