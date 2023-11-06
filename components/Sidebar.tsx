@@ -1,10 +1,43 @@
 import Link from "next/link";
-import {
-  SplitRoute,
-  splitContentRoutes,
-  ContentRoute,
-  contentRoutes,
-} from "@/lib/content";
+import { SplitRoute, splitContentRoutes, ContentRoute } from "@/lib/content";
+
+const contentRoutes: ContentRoute[] = [
+  {
+    route: "install",
+    content: "",
+    frontmatter: {
+      title: "install",
+    },
+  },
+  {
+    route: "getting-started",
+    content: "",
+    frontmatter: {
+      title: "Getting Started",
+    },
+  },
+  {
+    route: "components",
+    content: "",
+    frontmatter: {
+      title: "Components",
+    },
+  },
+  {
+    route: "components/button",
+    content: "",
+    frontmatter: {
+      title: "Button",
+    },
+  },
+  {
+    route: "components/checkbox",
+    content: "",
+    frontmatter: {
+      title: "Checkbox",
+    },
+  },
+];
 
 export default function Sidebar() {
   const routes = splitContentRoutes(contentRoutes);
@@ -29,8 +62,6 @@ interface SidebarItemProps {
 function SidebarItem({ route, parentPrefix = "" }: SidebarItemProps) {
   let title = capitalizeFirstLetter(route.prefix);
   let href = parentPrefix + route.prefix + "/";
-  console.log("\n\nNew sidebar Item");
-  console.log(route);
 
   const newRoutes: ContentRoute[] = [];
   for (let i = 0; i < route.routes.length; i++) {
