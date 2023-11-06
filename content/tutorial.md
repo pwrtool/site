@@ -437,6 +437,41 @@ Github copilot autocompleted this one for me. No clue what the regex even does t
 
 ## Parsing Frontmatter
 
+Parsing frontmatter is easy, we can just use the [gray matter](https://www.npmjs.com/package/gray-matter) library:
+
+```ts
+export function splitFrontmatter(data: string): {
+  frontmatter: object;
+  content: string;
+} {
+  const result = matter(data);
+
+  return {
+    frontmatter: result.data,
+    content: result.content,
+  };
+}
+```
+
+## Figuring out the Route
+
+Figuring out the route is also not that difficult. Here's basically what we want:
+
+- docs/something.md -> docs/something
+- docs/index -> docs/
+- docs/another/coolthing -> docs/another/coolthing
+- docs/another/index -> docs/another
+
+We really just need to check if there's an index at the end, and remove it if there is
+
+## Put it all together!
+
+Now that we have all the ingredients, we can put it together to make one very cool function:
+
+```ts
+
+```
+
 # Outputting the files
 
 # Wrapping it Up
