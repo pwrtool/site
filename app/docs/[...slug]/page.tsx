@@ -1,3 +1,4 @@
+"use client";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { redirect } from "next/navigation";
 import { getContentRoute } from "@/lib/content";
@@ -18,9 +19,9 @@ export default async function Page({
   }
 
   return (
-    <article>
+    <>
       <h1>{node.frontmatter.title}</h1>
       <MDXRemote source={node.content} />
-    </article>
+    </>
   );
 }

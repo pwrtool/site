@@ -10,6 +10,12 @@ export type ContentRoute = {
   content: string;
   route: string;
   frontmatter: Frontmatter;
+  outline: Header[];
+};
+
+type Header = {
+  level: string;
+  text: string;
 };
 
 export type ContentFile = {
@@ -24,83 +30,17 @@ export type Frontmatter = {
   weight?: number;
 };
 
-// wraps the actual filesystem and gray matter operations for other functions to deal with
-function getContentFiles(): ContentFile[] {
-  // recursively search through content folder for markdown files
-
-  const contentFiles: ContentFile[] = [];
-
-  const walkSync = (dir: string, filelist: string[] = []) => {
-    fs.readdirSync(dir).forEach((file) => {
-      filelist = fs.statSync(dir + "/" + file).isDirectory()
-        ? walkSync(dir + "/" + file, filelist)
-        : filelist.concat(dir + "/" + file);
-    });
-    return filelist;
-  };
-
-  // find content folder by continuously searching parent directories
-  // until we find a folder named content
-
-  let contentFolder = "content";
-  let parentDir = "..";
-  while (!fs.existsSync(contentFolder)) {
-    contentFolder = `${parentDir}/${contentFolder}`;
-    parentDir = `${parentDir}/..`;
-  }
-
-  const contentFilePaths = walkSync(contentFolder);
-  for (const contentFile of contentFilePaths) {
-    const content = fs.readFileSync(contentFile, "utf8");
-    const { data, content: markdownContent } = matter(content);
-    contentFiles.push({
-      filepath: contentFile,
-      content: markdownContent,
-      frontmatter: data as Frontmatter,
-    });
-  }
-
-  return contentFiles;
-}
-
-export function getContentRoutes(files: ContentFile[]): ContentRoute[] {
-  const routes: ContentRoute[] = [];
-
-  for (const file of files) {
-    let route = removeMarkdownExtension(file.filepath.replace("content/", ""));
-    const split = route.split("/");
-
-    if (split[split.length - 1] === "index") {
-      split.pop();
-    }
-    route = split.join("/");
-
-    routes.push({
-      frontmatter: file.frontmatter,
-      content: file.content,
-      route: route,
-    });
-  }
-
-  return routes;
-}
-
-function removeMarkdownExtension(file: string): string {
-  return file.replace(".mdx", "").replace(".md", "");
-}
-
 export async function getContentRoute(route: string): Promise<ContentRoute> {
-  const checkRoute = "/content/content>" + route.replaceAll("/", ">") + ".json";
+  const checkRoute = "/content/" + route.replaceAll("/", ">") + ".json";
   console.log(checkRoute);
   const data = await fetch(checkRoute);
-  console.log(data.json());
+  const node = (await data.json()) as ContentRoute;
 
   return Promise.resolve({
-    content: "content",
-    route: "route",
-    frontmatter: {
-      title: "title",
-    },
+    content: node.content,
+    route: route,
+    frontmatter: node.frontmatter,
+    outline: node.outline,
   });
 }
 
@@ -126,6 +66,3 @@ export function splitContentRoutes(
 
   return splitRoutes;
 }
-
-const contentFiles = getContentFiles();
-export const contentRoutes = getContentRoutes(contentFiles);
