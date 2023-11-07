@@ -27,6 +27,18 @@ export type Frontmatter = {
   weight?: number;
 };
 
+export async function getListFile(): Promise<ContentRoute[]> {
+  try {
+    const url = process.env.SITE_URL + "/content/list.json";
+    const data = await fetch(url);
+    const list = (await data.json()) as ContentRoute[];
+
+    return Promise.resolve(list);
+  } catch (e) {
+    return Promise.reject(e);
+  }
+}
+
 export async function getContentRoute(route: string): Promise<ContentRoute> {
   try {
     const url =
@@ -53,6 +65,11 @@ export function splitContentRoutes(
   for (let i = 0; i < contentRoutes.length; i++) {
     const route = contentRoutes[i];
     const split = route.route.split("/");
+
+    if (split[0] === "") {
+      split.shift();
+    }
+
     const prefix = split[0];
     let splitRoute = splitRoutes.find((r) => r.prefix === prefix);
     if (!splitRoute) {

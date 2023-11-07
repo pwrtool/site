@@ -1,53 +1,39 @@
 import Link from "next/link";
-import { SplitRoute, splitContentRoutes, ContentRoute } from "@/lib/content";
+import {
+  SplitRoute,
+  splitContentRoutes,
+  ContentRoute,
+  getListFile,
+} from "@/lib/content";
 
-const contentRoutes: ContentRoute[] = [
-  {
-    route: "install",
-    content: "",
-    frontmatter: {
-      title: "install",
-    },
-  },
-  {
-    route: "getting-started",
-    content: "",
-    frontmatter: {
-      title: "Getting Started",
-    },
-  },
-  {
-    route: "components",
-    content: "",
-    frontmatter: {
-      title: "Components",
-    },
-  },
-  {
-    route: "components/button",
-    content: "",
-    frontmatter: {
-      title: "Button",
-    },
-  },
-  {
-    route: "components/checkbox",
-    content: "",
-    frontmatter: {
-      title: "Checkbox",
-    },
-  },
-];
+export default async function Sidebar() {
+  const listFile: ContentRoute[] = await getListFile();
+  const contentRoutes: ContentRoute[] = [];
 
-export default function Sidebar() {
+  console.log("\nList file:");
+  for (const route of listFile) {
+    const split = route.route.split("/");
+
+    if (split[0] === "") {
+      // remove the first element
+      split.shift();
+    }
+
+    if (split[0] === "docs") {
+      contentRoutes.push(route);
+    }
+  }
+
   const routes = splitContentRoutes(contentRoutes);
+  console.log(routes);
+
   return (
     <div className="p-4 border-r-gray-500 border-r-2 border-0 h-screen-minus-header">
       <h2 className="text-2xl">Documentation</h2>
 
       <div className="mt-4">
         {routes.map((route, i) => (
-          <SidebarItem route={route} parentPrefix={"/docs/"} key={i} />
+          <SidebarItem route={route} parentPrefix={""} key={i} />
         ))}
       </div>
     </div>
@@ -76,6 +62,8 @@ function SidebarItem({ route, parentPrefix = "" }: SidebarItemProps) {
   }
 
   const splitRoutes = splitContentRoutes(route.routes);
+  console.log(splitRoutes);
+  console.log(splitRoutes[0].routes);
 
   return (
     <div>
