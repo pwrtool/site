@@ -1,7 +1,5 @@
 "use client";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import { redirect } from "next/navigation";
-import { getContentRoute } from "@/lib/content";
+import ContentRoute from "@/components/ContentRoute";
 
 export default async function Page({
   params,
@@ -10,18 +8,5 @@ export default async function Page({
     slug: string[];
   };
 }) {
-  const route = "docs/" + params.slug.join("/");
-  const node = await getContentRoute(route);
-  console.log(node);
-
-  if (!node) {
-    redirect("/404");
-  }
-
-  return (
-    <>
-      <h1>{node.frontmatter.title}</h1>
-      <MDXRemote source={node.content} />
-    </>
-  );
+  return <ContentRoute slug={params.slug} routePrefix="/docs" />;
 }
