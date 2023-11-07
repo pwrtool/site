@@ -7,7 +7,7 @@ export type ContentRoute = {
   content: string;
   route: string;
   frontmatter: Frontmatter;
-  outline: Header[];
+  outline?: Header[];
 };
 
 type Header = {
