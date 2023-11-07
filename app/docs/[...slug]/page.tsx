@@ -1,4 +1,3 @@
-"use client";
 import ContentRoute from "@/components/ContentRoute";
 
 export default async function Page({
@@ -8,5 +7,5 @@ export default async function Page({
     slug: string[];
   };
 }) {
-  return <ContentRoute slug={params.slug} routePrefix="/docs" />;
+  return <ContentRoute slug={params.slug} routePrefix="docs/" />;
 }

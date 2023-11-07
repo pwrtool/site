@@ -12,10 +12,17 @@ export default async function ContentRoute({
   routePrefix = "",
 }: ContentRouteProps) {
   const route = routePrefix + slug.join("/");
-  const node = await getContentRoute(route);
-  console.log(node);
+  const node = await getContentRoute(route)
+    .then((res) => res)
+    .catch((e) => {
+      console.error(
+        "the following thing probably means that that the route wasn't found",
+      );
+      console.error(e);
+      return null;
+    });
 
-  if (!node) {
+  if (node === null) {
     redirect("/404");
   }
 

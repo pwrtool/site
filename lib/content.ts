@@ -28,17 +28,21 @@ export type Frontmatter = {
 };
 
 export async function getContentRoute(route: string): Promise<ContentRoute> {
-  const checkRoute = "/content/" + route.replaceAll("/", ">") + ".json";
-  console.log(checkRoute);
-  const data = await fetch(checkRoute);
-  const node = (await data.json()) as ContentRoute;
+  try {
+    const url =
+      process.env.SITE_URL + "/content/" + route.replaceAll("/", ">") + ".json";
+    const data = await fetch(url);
+    const node = (await data.json()) as ContentRoute;
 
-  return Promise.resolve({
-    content: node.content,
-    route: route,
-    frontmatter: node.frontmatter,
-    outline: node.outline,
-  });
+    return Promise.resolve({
+      content: node.content,
+      route: route,
+      frontmatter: node.frontmatter,
+      outline: node.outline,
+    });
+  } catch (e) {
+    return Promise.reject(e);
+  }
 }
 
 export function splitContentRoutes(
