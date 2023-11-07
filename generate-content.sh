@@ -2,4 +2,4 @@
 
 rm -rf public/content
 mkdir public/content
-ptx pwrtool/simple-content-layer input=content output=public/content
+ptx bench/test input=content output=public/content
