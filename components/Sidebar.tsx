@@ -10,7 +10,6 @@ export default async function Sidebar() {
   const listFile: ContentRoute[] = await getListFile();
   const contentRoutes: ContentRoute[] = [];
 
-  console.log("\nList file:");
   for (const route of listFile) {
     const split = route.route.split("/");
 
@@ -20,12 +19,13 @@ export default async function Sidebar() {
     }
 
     if (split[0] === "docs") {
+      split.shift();
+      const url = split.join("/");
+      route.route = url;
       contentRoutes.push(route);
     }
   }
-
   const routes = splitContentRoutes(contentRoutes);
-  console.log(routes);
 
   return (
     <div className="p-4 border-r-gray-500 border-r-2 border-0 h-screen-minus-header">
@@ -62,8 +62,6 @@ function SidebarItem({ route, parentPrefix = "" }: SidebarItemProps) {
   }
 
   const splitRoutes = splitContentRoutes(route.routes);
-  console.log(splitRoutes);
-  console.log(splitRoutes[0].routes);
 
   return (
     <div>
@@ -86,6 +84,13 @@ function SidebarItem({ route, parentPrefix = "" }: SidebarItemProps) {
   );
 }
 
-function capitalizeFirstLetter(str: string): string {
+function capitalizeFirstLetter(str: string | undefined): string {
+  if (str === undefined) {
+    return "";
+  }
+
+  if (str.length === 0) {
+    return str;
+  }
   return str.charAt(0).toUpperCase() + str.slice(1);
 }

@@ -30,8 +30,10 @@ export type Frontmatter = {
 export async function getListFile(): Promise<ContentRoute[]> {
   try {
     const url = process.env.SITE_URL + "/content/list.json";
-    const data = await fetch(url);
+    const data = await fetch(url, { cache: "no-store" });
     const list = (await data.json()) as ContentRoute[];
+
+    console.log(list);
 
     return Promise.resolve(list);
   } catch (e) {
