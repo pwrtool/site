@@ -13,7 +13,7 @@ body {
 }
 
 main {
-  @apply m-4;
+  @apply m-4 w-full;
 }
 
 a {
@@ -26,6 +26,10 @@ a {
 
 .text-primary-hover:hover {
   color: var(--color-primary-hover);
+}
+
+.border-b-primary {
+  border-bottom-color: var(--color-primary);
 }
 
 .underline-hover {
@@ -56,8 +60,22 @@ a {
   height: auto;
 }
 
-.article {
-  @apply prose;
+article {
+  @apply mx-auto w-full;
+}
+article * {
+  @apply my-4;
+}
+article h1 {
+  @apply text-3xl font-bold my-6 w-full border-b-gray-500 border-b-2 py-1;
+}
+
+article h2 {
+  @apply text-2xl font-bold mb-6;
+}
+
+article h3 {
+  @apply text-xl;
 }
 
 .h-screen-minus-header {

@@ -30,7 +30,9 @@ export default async function ContentRoute({
 
   return (
     <>
-      <h1>{node.frontmatter.title}</h1>
+      <h1 className="text-4xl text-primary border-b-primary border-b-2">
+        {node.frontmatter.title}
+      </h1>
       <MDXRemote components={components} source={node.content} />
     </>
   );
