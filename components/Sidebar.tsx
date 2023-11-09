@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ContentRoute, getListFile } from "@/lib/content";
 
 interface SidebarItemProps {
-  splitRoutes: Map<string, ContentRoute[]>;
+  routes: ContentRoute[];
   urlPrefix: string[];
 }
 
@@ -11,23 +11,59 @@ export default async function Sidebar() {
   const documentationRoutes = getOnlyDocsRoutes(listFile);
 
   const splitRoutes = splitContentRoutes(documentationRoutes);
-  console.log(splitRoutes);
+  const components: JSX.Element[] = [];
+
+  let i = 0;
+  for (const [url, routes] of splitRoutes) {
+    components.push(
+      <SidebarItem urlPrefix={["docs", url]} routes={routes} key={i} />,
+    );
+    i++;
+  }
 
   return (
     <div className="p-4 border-r-gray-500 border-r-2 border-0 h-screen-minus-header">
       <h2 className="text-2xl">Documentation</h2>
-
+      {...components}
       <div className="mt-4"></div>
     </div>
   );
 }
 
-function SidebarItem({ splitRoutes, urlPrefix }: SidebarItemProps) {
-  console.log(splitRoutes);
-  console.log(urlPrefix);
-  console.log("");
+function SidebarItem({ routes, urlPrefix }: SidebarItemProps) {
+  let title = urlPrefix[urlPrefix.length - 1].toUpperCase();
+  let url = "";
 
-  return <></>;
+  for (let i = 0; i < routes.length; i++) {
+    const route = routes[i];
+    if (route.route === "") {
+      title = route.frontmatter.title;
+      url = urlPrefix.join("/");
+      routes.splice(i, 1);
+    }
+  }
+  const components: JSX.Element[] = [];
+
+  if (routes.length > 0) {
+    const splitRoutes = splitContentRoutes(routes);
+    let i = 0;
+    for (const [url, route] of splitRoutes) {
+      components.push(
+        <SidebarItem urlPrefix={[...urlPrefix, url]} routes={route} key={i} />,
+      );
+      i++;
+    }
+  }
+
+  return (
+    //
+    <div className="ml-2 text-white">
+      <Link href={"/" + url} className="text-white hover:text-white hover:pl-1">
+        {title}
+      </Link>
+      {...components}
+    </div>
+  );
 }
 
 function getOnlyDocsRoutes(routes: ContentRoute[]): ContentRoute[] {
