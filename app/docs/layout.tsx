@@ -9,7 +9,7 @@ export default function DocsLayout({
     <div className="flex flex-row">
       <Sidebar />
       <main>
-        <article className="prose prose-stone prose-invert">{children}</article>
+        <article>{children}</article>
       </main>
     </div>
   );

@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { ContentRoute, getListFile } from "@/lib/content";
+import SidebarLink from "@/components/SidebarLink";
 
 interface SidebarItemProps {
   routes: ContentRoute[];
@@ -22,7 +22,7 @@ export default async function Sidebar() {
   }
 
   return (
-    <div className="p-4 border-r-gray-500 border-r-2 border-0 h-screen-minus-header">
+    <div className="p-4 border-r-gray-500 border-r-2 border-0 h-screen-minus-header min-w-[16rem]">
       <h2 className="text-2xl">Documentation</h2>
       {...components}
       <div className="mt-4"></div>
@@ -58,9 +58,7 @@ function SidebarItem({ routes, urlPrefix }: SidebarItemProps) {
   return (
     //
     <div className="ml-2 text-white">
-      <Link href={"/" + url} className="text-white hover:text-white hover:pl-1">
-        {title}
-      </Link>
+      <SidebarLink url={"/" + url} title={title} />
       {...components}
     </div>
   );

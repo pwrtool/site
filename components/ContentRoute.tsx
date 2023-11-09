@@ -1,6 +1,7 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { redirect } from "next/navigation";
 import { getContentRoute } from "@/lib/content";
+import { useMDXComponents } from "@/mdx-components";
 
 interface ContentRouteProps {
   slug: string[];
@@ -12,6 +13,7 @@ export default async function ContentRoute({
   routePrefix = "",
 }: ContentRouteProps) {
   const route = routePrefix + slug.join("/");
+  const components = useMDXComponents();
   const node = await getContentRoute(route)
     .then((res) => res)
     .catch((e) => {
@@ -29,7 +31,7 @@ export default async function ContentRoute({
   return (
     <>
       <h1>{node.frontmatter.title}</h1>
-      <MDXRemote source={node.content} />
+      <MDXRemote components={components} source={node.content} />
     </>
   );
 }
