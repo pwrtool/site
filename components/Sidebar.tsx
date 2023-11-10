@@ -23,7 +23,7 @@ export default async function Sidebar() {
 
   return (
     <div className="p-4 border-r-gray-500 border-r-2 border-0 h-screen-minus-header min-w-[16rem]">
-      <h2 className="text-2xl">Documentation</h2>
+      <h2 className="text-2xl underline">Documentation</h2>
       {...components}
       <div className="mt-4"></div>
     </div>
