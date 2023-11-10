@@ -2,6 +2,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { redirect } from "next/navigation";
 import { getContentRoute } from "@/lib/content";
 import { useMDXComponents } from "@/mdx-components";
+import Highlighter from "@/components/Highlighter";
 
 interface ContentRouteProps {
   slug: string[];
@@ -34,6 +35,7 @@ export default async function ContentRoute({
         {node.frontmatter.title}
       </h1>
       <MDXRemote components={components} source={node.content} />
+      <Highlighter />
     </>
   );
 }

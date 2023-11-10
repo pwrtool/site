@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Oxygen as Font } from "next/font/google";
 import "./globals.css";
+import "prismjs/themes/prism-tomorrow.css";
 import Navbar from "@/components/Navbar";
 
 const font = Font({ subsets: ["latin"], weight: "400" });
