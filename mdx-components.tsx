@@ -8,7 +8,7 @@ export function getIdFromChildren(children: React.ReactNode): string {
   return (children || "").toString().toLowerCase().replace(/ /g, "-");
 }
 
-function getMDXComponents(): MDXComponents {
+export function getMDXComponents(): MDXComponents {
   return {
     h1: (props) => <h1 id={getIdFromChildren(props.children)} {...props} />,
     h2: (props) => <h2 id={getIdFromChildren(props.children)} {...props} />,
