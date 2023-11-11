@@ -99,10 +99,19 @@ article h3 {
 }
 
 .big-logo-shadow {
-  background-image: radial-gradient(
-    circle at 30% 107%,
-    rgba(0, 0, 0, 0.2) 0%,
-    rgba(0, 0, 0, 0.2) 50%,
-    rgba(0, 0, 0, 0.5) 100%
-  );
+  position: relative;
+  z-index: 100;
+  width: 1px;
+  height: 1px;
+
+  left: calc(45%);
+  top: -40px;
+
+  border-radius: 50%;
+  background-color: #000;
+  box-shadow:
+    0 0 100px 30px #e33822,
+    0 0 150px 60px #e94a1d,
+    0 0 200px 90px #f05b16;
+  animation: pulse 2s infinite;
 }
