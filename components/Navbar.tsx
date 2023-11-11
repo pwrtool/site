@@ -8,11 +8,11 @@ export default function Navbar() {
     <header className="p-4 border-b-gray-500 border-b-2 border-0 flex flex-row content-center h-[4.5rem]">
       <Link
         href="/"
-        className="text-3xl font-bold text-white underline-hover hover:text-white flex flex-row"
+        className="text-3xl font-bold text-primary underline-hover-primary hover:text-primary-hover flex flex-row"
       >
         <Image
           alt="Powertool Icon"
-          src="/branding/white_icon.svg"
+          src="/branding/colored_icon.svg"
           width={50}
           height={50}
         />

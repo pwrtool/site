@@ -48,6 +48,22 @@ a {
   background-size: 100% 0.1em;
 }
 
+.underline-hover-primary {
+  text-decoration: none;
+  background-image: linear-gradient(var(--color-primary), var(--color-primary));
+  background-size: 0% 0.1em;
+  background-position-y: 100%;
+  background-position-x: 50%;
+  background-repeat: no-repeat;
+  transition: background-size 0.2s ease-in-out;
+}
+
+.underline-hover-primary:hover,
+.underline-hover-primary:focus,
+.underline-hover-primary:active {
+  background-size: 100% 0.1em;
+}
+
 .invisible {
   visibility: hidden;
   width: 0;

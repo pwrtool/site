@@ -1,4 +1,5 @@
 import Sidebar from "@/components/Sidebar";
+import OnThisPage from "@/components/OnThisPage";
 
 export default function DocsLayout({
   children,
