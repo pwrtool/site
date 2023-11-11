@@ -6,6 +6,10 @@ interface OnThisPageProps {
 }
 
 export default function OnThisPage({ headers }: OnThisPageProps) {
+  if (headers.length === 0) {
+    return <div className="w-0 h-0"></div>;
+  }
+
   return (
     <ul className="ml-4 text-white">
       {headers.map((header) => (
