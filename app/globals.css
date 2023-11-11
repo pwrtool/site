@@ -94,6 +94,13 @@ article h3 {
   @apply text-xl;
 }
 
+article ul {
+  @apply list-disc list-inside;
+}
+article li {
+  @apply my-2;
+}
+
 .h-screen-minus-header {
   height: calc(100vh - 4.5rem);
 }
