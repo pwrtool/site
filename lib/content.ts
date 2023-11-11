@@ -10,7 +10,7 @@ export type ContentRoute = {
   outline?: Header[];
 };
 
-type Header = {
+export type Header = {
   level: string;
   text: string;
 };

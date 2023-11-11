@@ -1,5 +1,6 @@
 import { ContentRoute, getListFile } from "@/lib/content";
 import SidebarLink from "@/components/SidebarLink";
+import { Header } from "@/lib/content";
 
 interface SidebarItemProps {
   routes: ContentRoute[];
@@ -33,12 +34,14 @@ export default async function Sidebar() {
 function SidebarItem({ routes, urlPrefix }: SidebarItemProps) {
   let title = urlPrefix[urlPrefix.length - 1].toUpperCase();
   let url = "";
+  let outline: Header[] = [];
 
   for (let i = 0; i < routes.length; i++) {
     const route = routes[i];
     if (route.route === "") {
       title = route.frontmatter.title;
       url = urlPrefix.join("/");
+      outline = route.outline ?? [];
       routes.splice(i, 1);
     }
   }
@@ -56,9 +59,8 @@ function SidebarItem({ routes, urlPrefix }: SidebarItemProps) {
   }
 
   return (
-    //
     <div className="ml-2 text-white">
-      <SidebarLink url={"/" + url} title={title} />
+      <SidebarLink url={"/" + url} title={title} outline={outline} />
       {...components}
     </div>
   );

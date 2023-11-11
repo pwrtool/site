@@ -1,12 +1,15 @@
 "use client";
 import { usePathname } from "next/navigation";
 import OnThisPage from "./OnThisPage";
+import { Header } from "@/lib/content";
 
 interface SidebarLinkProps {
   url: string;
   title: string;
+  outline: Header[];
 }
-export default function SidebarLink({ url, title }: SidebarLinkProps) {
+
+export default function SidebarLink({ url, title, outline }: SidebarLinkProps) {
   const pathname = usePathname();
 
   return (
@@ -18,7 +21,11 @@ export default function SidebarLink({ url, title }: SidebarLinkProps) {
       >
         {title}
       </a>
-      {url === pathname ? <OnThisPage /> : <div className="w-0 h-0"></div>}
+      {url === pathname ? (
+        <OnThisPage headers={outline} />
+      ) : (
+        <div className="w-0 h-0"></div>
+      )}
     </>
   );
 }
