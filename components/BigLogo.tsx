@@ -11,7 +11,8 @@ export default function BigLogo() {
         height={200}
       />
       <div className="big-logo-shadow" />
-      <h1 className="text-6xl font-bold text-center">Powertool</h1>
+      <h1 className="text-6xl font-bold text-center pt-8">Powertool</h1>
+      <h3 className="text-3xl text-center pt-8">Automate everything</h3>
     </div>
   );
 }
