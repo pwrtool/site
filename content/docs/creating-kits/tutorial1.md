@@ -1,3 +1,7 @@
+---
+title: Docs Generator with Bun
+---
+
 # Prerequisites
 
 I'm going to assume that:
@@ -11,7 +15,7 @@ I'm going to assume that:
 
 Let's build a kit that parses a bunch of markdown files into JSON for use in a static site generator. For example, lets say we have the filetree:
 
-```
+```txt
 content/
   docs/
     getting-started/
@@ -32,7 +36,7 @@ content/
 
 We should output something that looks like:
 
-```
+```txt
 public/
   genreated-content/
     list.json

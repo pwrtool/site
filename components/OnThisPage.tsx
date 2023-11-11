@@ -14,7 +14,9 @@ export default function OnThisPage({ headers }: OnThisPageProps) {
     <ul className="ml-4 text-white">
       {headers.map((header) => (
         <li key={header.text} className={`ml-${header.level}`}>
-          <a href={`#${header.text.replace(/ /g, "-")}`}>- {header.text}</a>
+          <a href={`#${header.text.toLowerCase().replace(/ /g, "-")}`}>
+            - {header.text}
+          </a>
         </li>
       ))}
     </ul>

@@ -2,7 +2,9 @@
 title: Using Powertool
 ---
 
-# Install
+# Installing the CLI
+
+Powertool is currently only supported on Unix systems (MacOS, Linux, WSL, etc). A windows distribution is not planned. If you're on windows, consider using [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install).
 
 ## Quick Install
 
@@ -55,4 +57,20 @@ Commands:
   info <kit>       Get information about a kit from its ptinfo.yaml file
 ```
 
-# Downloading Kits
+# Installing Kits
+
+It's recommended that you install the `pwrtool/std` kit. Run the following command:
+
+```bash
+pwrtool install pwrtool/std
+```
+
+`pwrtool install` looks for the github repo from the user or organization `pwrtool` with the name `std` and clones it. All of the building of the kit is done straight from the source to minimize issues of it not working on different machines.
+
+If you want to know the capabilities of a kit, just run `pwrtool info`:
+
+```bash
+pwrtool infoo pwrtool/std
+```
+
+This contains tools for building new kits, running those kits, and some basic "hello world" and example stuff.
