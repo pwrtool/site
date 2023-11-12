@@ -15,6 +15,5 @@ export function getMDXComponents(): MDXComponents {
     h3: (props) => <h3 id={getIdFromChildren(props.children)} {...props} />,
     h4: (props) => <h4 id={getIdFromChildren(props.children)} {...props} />,
     p: (props) => <p {...props} />,
-    Footer: (props) => <footer {...props} />,
   };
 }
