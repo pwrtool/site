@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function BigLogo() {
   return (
-    <div className="mx-auto p-12 m-12 text-center">
+    <div className="p-12 my-12 mx-auto text-center w-[25rem]">
       <Image
         src="/branding/colored_icon.svg"
         alt="Powertool Logo"

@@ -18,7 +18,7 @@ body {
 }
 
 main {
-  @apply m-4 w-full;
+  @apply m-4;
 }
 
 a {
@@ -113,10 +113,6 @@ article li {
 
 .h-screen-minus-header {
   height: calc(100vh - 4.5rem);
-}
-
-.min-h-screen-minus-header-and-footer {
-  min-height: calc(100vh - 13rem);
 }
 
 .big-logo-shadow {
