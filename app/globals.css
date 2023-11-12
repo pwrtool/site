@@ -5,11 +5,16 @@
 :root {
   --color-primary: #e33822;
   --color-primary-hover: #e94a1d;
+  --color-bg: #151515;
 }
 
 body {
   background-color: #151515;
   color: #ffffff;
+}
+
+.bg-background {
+  background-color: var(--color-bg);
 }
 
 main {

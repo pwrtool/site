@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function Navbar() {
   return (
-    <header className="p-4 border-b-gray-500 border-b-2 border-0 flex flex-row content-center h-[4.5rem]">
+    <header className="p-4 border-b-gray-500 border-b-2 border-0 bg-background z-10 flex flex-row sticky top-0 content-center h-[4.5rem]">
       <Link
         href="/"
         className="text-3xl font-bold text-primary underline-hover-primary hover:text-primary-hover flex flex-row"

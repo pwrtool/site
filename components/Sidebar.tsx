@@ -24,7 +24,7 @@ export default async function Sidebar() {
   }
 
   return (
-    <div className="p-4 h-screen-minus-header min-w-[16rem]">
+    <div className="p-4 sticky top-[4.5rem] left-0 h-full min-w-[16rem]">
       <h2 className="text-2xl underline text-primary">
         <Link href="/docs">Documentation</Link>
       </h2>
