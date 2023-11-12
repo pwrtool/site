@@ -115,6 +115,10 @@ article li {
   height: calc(100vh - 4.5rem);
 }
 
+.min-h-screen-minus-header-and-footer {
+  min-height: calc(100vh - 11rem);
+}
+
 .big-logo-shadow {
   position: relative;
   z-index: 100;
