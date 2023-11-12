@@ -116,7 +116,7 @@ article li {
 }
 
 .min-h-screen-minus-header-and-footer {
-  min-height: calc(100vh - 11rem);
+  min-height: calc(100vh - 13rem);
 }
 
 .big-logo-shadow {
