@@ -3,7 +3,6 @@ import { Oxygen as Font } from "next/font/google";
 import "./globals.css";
 import "prismjs/themes/prism-tomorrow.css";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 const font = Font({ subsets: ["latin"], weight: "400" });
 
@@ -19,10 +18,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={font.className}>
+      <body className={`${font.className} min-h-screen`}>
         <Navbar />
-        <div>{children}</div>
-        <Footer />
+        <div className="mb-auto">{children}</div>
       </body>
     </html>
   );
