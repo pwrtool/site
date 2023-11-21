@@ -1,21 +1,19 @@
 ---
 title: Creating Kits
 ---
+This page will take you through the basics of what a kit is, how it works, and how you can build one.
 
-# Hello world!
+# What are Kits?
+At it's core, a kit is just two files:
+- `run.sh`
+- `install.sh`
 
-I am how you create kits
+The `install.sh` script is run when the kit is installed, and the `run.sh` script is run to run the kit. If all you need is a simple shell script with no args, then nothing beyond here is necessary!
 
-## Some more details
 
-This is a subheader where I talk about some details about building kits
+# How are kits called?
 
-# Another big header
+When you call `pwrtool run <kit>` to run a kit, the following command is run on your computer:
 
-This is another big header
+`<path-to-your-run.sh-script>`
 
-```js
-export default function foo() {
-  return 1 + 2;
-}
-```
