@@ -2,7 +2,5 @@
 title: Action files
 ---
 
-This will show you how to use .ptaction files
 
-
-<Footer />
+Action files are coming soon. Look forward to them in the v2.0.0 update.

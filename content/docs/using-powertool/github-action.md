@@ -2,4 +2,4 @@
 title: Github Action
 ---
 
-How to link your powertools to github actions
+A github action for powertools will come at the same time as action files. Look forward to it!

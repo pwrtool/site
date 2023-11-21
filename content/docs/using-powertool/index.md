@@ -67,7 +67,7 @@ pwrtool install pwrtool/std
 
 `pwrtool install` looks for the github repo from the user or organization `pwrtool` with the name `std` and clones it. All of the building of the kit is done straight from the source to minimize issues of it not working on different machines.
 
-If you want to know the capabilities of a kit, just run `pwrtool info`:
+If you want to know the capabilities of a kit, run `pwrtool info`:
 
 ```bash
 pwrtool infoo pwrtool/std
