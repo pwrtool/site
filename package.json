@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "watch-content": "./scripts/watch-content.sh",
+    "build": "next build && ./scripts/generate-content.sh",
     "start": "next start",
     "lint": "next lint"
   },
