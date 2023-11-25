@@ -81,9 +81,6 @@ a {
   height: auto;
 }
 
-article {
-  @apply mx-auto w-full;
-}
 article * {
   @apply my-4;
 }
