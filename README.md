@@ -1,41 +1,13 @@
-# Website
+# Powertool Site
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+This is a statically generated site built with docusaurus. See [their docs](https://docusaurus.io/). If powertool creates its own registry, a new documentation site will be created, most likely running custom code. All actual content will be preserved however.
 
-### Installation
+# Contributing
 
-```
-$ yarn
-```
+## Writing Documentation
 
-### Local Development
+Writing documentation is easy. If you spot any typos or grammar mistakes, you can just click the "Edit this page" button at the bottom of the documentation page. If you want to add your own tutorial or need your own
 
-```
-$ yarn start
-```
+## Making the site look cool
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
-
-### Build
-
-```
-$ yarn build
-```
-
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-### Deployment
-
-Using SSH:
-
-```
-$ USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+Think you can make the site look better? You probably can! Feel free to make any stylistic improvements and I'll accept them if I like them. You can just clone the repo and edit the css.
