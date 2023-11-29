@@ -10,14 +10,21 @@ type FeatureItem = {
 const FeatureList: FeatureItem[] = [
   {
     title: "🔧 Hackable",
-    description: <>Powertool kits run on bun. Any</>,
+    description: (
+      <>
+        Powertools start out as just a simple shell script. If that's all you
+        need, that all you have to have. If you need more, typescript with bun
+        can be adopted. It's also possible to just build your own system
+      </>
+    ),
   },
   {
     title: "🌐 Runs Anywhere",
     description: (
       <>
-        Powertool can run on your machine, as a docker container, as a github
-        action, or just as a simple bash script.
+        Powertool is built to be able to be run anywhere. Each kit is built to
+        be self installing and self contained. Powertool can be run as a github
+        action, docker container, or just through a CLI on your machine.
       </>
     ),
   },

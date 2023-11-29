@@ -34,6 +34,4 @@ See [the tutorial on a markdown generator] I made on a good way to write tutoria
 
 If you're a frontend engineer and are dissatisfied with how this website looks, you're in good company. If you have any amazing ideas,
 
-The website is built in docusaurus with react. Most of the CSS is modularized, so that shouldn't be an issue. The site currently uses vanilla CSS. Tailwind is an option if you want to add it
-
-In general, the
+The website is built in docusaurus with react. Most of the CSS is modularized, so that shouldn't be an issue. The site currently uses vanilla CSS. If you want to use another CSS system, please create an issue asking for it.
