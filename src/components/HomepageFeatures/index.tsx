@@ -10,13 +10,7 @@ type FeatureItem = {
 const FeatureList: FeatureItem[] = [
   {
     title: "🔧 Hackable",
-    description: (
-      <>
-        Powertool doesn't enforce any specific way of doing things. Don't want
-        to use the default typescript kit? No problem, use whatever language you
-        want.
-      </>
-    ),
+    description: <>Powertool kits run on bun. Any</>,
   },
   {
     title: "🌐 Runs Anywhere",
