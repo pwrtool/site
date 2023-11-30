@@ -1,0 +1,8 @@
+{
+  "label": "Kit Tutorials",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Various walkthroughs on building kits to automate simple tasks"
+  }
+}
